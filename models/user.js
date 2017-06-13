@@ -5,11 +5,22 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs')
 
  const UserSchema = Schema({
-     name: String,
-     picture: String,
-     price: {type: Number, default: 0},
-     category: {type: String, enum: ['computers', 'phones', 'accesorios']},
-     description: String
+    email: {
+         type: String, 
+         unique: true, 
+         lowercase: true
+    },
+    displayName: String,
+    avatar: String,
+    password: {
+         type: String, 
+         select: false
+    },
+    singUpDate: {
+        type: Date,
+        default: Date.now()
+    },
+    lastLogin: Date
  })
 
- module.exports = mongoose.model('Product', ProductSchema)
+ module.exports = mongoose.model('User', UserSchema)
