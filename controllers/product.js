@@ -1,3 +1,5 @@
+'user strict'
+
 const Product = require('./../models/product')
 
 function getProducts(req, res){
