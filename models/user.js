@@ -24,10 +24,11 @@ const UserSchema = Schema({
     lastLogin: Date
 })
 
-UserSchema.pre('save', (next) => {
-     if (!this.isModified('password')) next();
+UserSchema.pre('save', function(next) {
 
-     bcrypt.hash(this.password, salt, null, (err, has)=>{
+     if (!this.isModified('password')) return next();
+
+     bcrypt.hash(this.password, null, null, (err, hash)=>{
          if (err) return next(err)
          
          this.password = hash

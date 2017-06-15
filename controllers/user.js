@@ -7,13 +7,14 @@ const service = require('./../services/index')
 function singUp(req, res){
     const user = new User({
         email: req.body.email,
-        displayName: req.body.displayName
+        displayName: req.body.displayName,
+        password: req.body.password 
     })
 
     user.save((err, success) =>{
         if(err) res.status(500).send({mensaje: `Error al crear el usuario ${err}`})
 
-        res.status(500).send.({ tocken: service.createToken(user)})
+        res.status(500).send({ tocken: service.createToken(user)})
     })
 
 }

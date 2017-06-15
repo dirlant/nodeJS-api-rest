@@ -2,11 +2,13 @@
 
 const services = require('./../services/index')
 
-function isAuth(err, res, next){
+function isAuth(req, res, next){
     if(!req.headers.authorization){
         return res.status(404).send({mensaje: 'No tienes autorizacion'})
     }
 
+    const token = req.headers.authorization.split(' ')[1]
+    
     services.decodeToken(token)
         .then(response => {
             req.user = response,
