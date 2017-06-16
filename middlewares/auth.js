@@ -1,17 +1,40 @@
 'use strict'
 
 const services = require('./../services/index')
+const Token = require('./../models/token')
 
 function isAuth(req, res, next){
+    
     if(!req.headers.authorization){
         return res.status(404).send({mensaje: 'No tienes autorizacion'})
     }
 
-    const token = req.headers.authorization.split(' ')[0]
-    //return res.send({token: token})
-    
-    const decode = services.decodeToken(token)
 
+    console.log(req.headers._id)
+    let userID = req.headers._id
+
+    Token.find({"userID": userID}, (err, success) => {
+        if (err){
+            return res.status(404).send({mensaje: 'No tienes autorizacion'})            
+        } 
+        if (!success){
+            res.status(404).send({mensaje : `No se ha encontrado el usuario ${success}`})            
+        } 
+
+        res.status(200).send({mensaje : success})  
+        
+        if(success.token == req.headers.authorization){
+            req.user = success.token
+            next()
+        }
+
+        
+    })
+   
+    
+    //const decode = services.decodeToken(token)
+
+    /*
     if(decode){
         req.user = decode
         next()

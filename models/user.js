@@ -21,7 +21,9 @@ const UserSchema = Schema({
         type: Date,
         default: Date.now()
     },
-    lastLogin: Date
+    lastLogin: {
+        type: Date
+    }
 })
 
 UserSchema.pre('save', function(next) {
@@ -39,6 +41,7 @@ UserSchema.pre('save', function(next) {
         })
     })
 })
+
 
 UserSchema.methods.gravatar = function(){
     if (!this.email) return 'https://gravatar.com/avatar/?s=2006d=retro'

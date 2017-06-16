@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose')
 const User = require('./../models/user')
+const Token = require('./../models/token')
 const service = require('./../services/index')
 
 function singUp(req, res){
@@ -11,10 +12,28 @@ function singUp(req, res){
         password: req.body.password 
     })
 
-    user.save((err, success) =>{
+    user.save((err, success) =>{        
         if(err) res.status(500).send({mensaje: `Error al crear el usuario ${err}`})
 
-        res.status(500).send({ token: service.createToken(user)})
+        //res.status(500).send({ token: service.createToken(user)})
+
+        user.save((err, success) =>{        
+            if(err) res.status(500).send({mensaje: `Error al crear el usuario ${err}`})
+            
+            let createToken = service.createToken(user)                        
+
+            let token = new Token();
+            token.userID = success._id
+            token.token = createToken
+
+            token.save((err, success)=>{
+                if(err) res.status(500).send({mensaje: `Ha ocurrido un error ${err}`})
+                //res.status(500).send({ token: createToken })
+                res.status(200).send({token: success.token}) 
+            })
+            
+            
+        })
     })
 
 }

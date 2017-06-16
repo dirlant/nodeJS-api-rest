@@ -18,4 +18,8 @@ api.get('/private', auth.isAuth, (req, res) => {
 
 })
 
+
+const tokenController = require('./../controllers/token')
+api.get('/private2', tokenController.getToken)
+
 module.exports = api 
