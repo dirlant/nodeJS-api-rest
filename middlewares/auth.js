@@ -20,8 +20,8 @@ function isAuth(req, res, next){
         if (!success){
             res.status(404).send({mensaje : `No se ha encontrado el usuario ${success}`})            
         } 
-
-        res.status(200).send({mensaje : success})  
+        
+        res.status(200).send({mensaje : success.token})  
         
         if(success.token == req.headers.authorization){
             req.user = success.token
