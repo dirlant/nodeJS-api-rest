@@ -16,6 +16,22 @@ function createToken(user){
 }
 
 function decodeToken(token){
+    
+    console.log(token)
+
+    const payload = jwt.decode(token, config.SECRET_TOKEN)
+
+    /*
+    if(payload.exp <= moment().unix()){
+        return 'El token ha expirado => decodeToken()'              
+    }
+    */
+
+    
+
+    return payload
+
+    /*
     const decoded = new Promise((resolve, reject) => {
         try{
             const payload = jwt.decode(token, config.SECRET_TOKEN)
@@ -33,8 +49,9 @@ function decodeToken(token){
             })
         }
     })
+    */
 
-    return decoded
+    
 }
 
 module.exports = {

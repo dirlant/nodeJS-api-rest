@@ -26,14 +26,18 @@ const UserSchema = Schema({
 
 UserSchema.pre('save', function(next) {
 
-     if (!this.isModified('password')) return next();
+     //if (!this.isModified('password')) return next();
 
-     bcrypt.hash(this.password, null, null, (err, hash)=>{
-         if (err) return next(err)
-         
-         this.password = hash
-         next()
-     })
+     bcrypt.genSalt(10, (err, salt) => {
+        if (err) return next(err)
+
+        bcrypt.hash(this.password, salt, null, (err, hash) => {
+            if (err) return next(err)
+
+            this.password = hash
+            next()
+        })
+    })
 })
 
 UserSchema.methods.gravatar = function(){
