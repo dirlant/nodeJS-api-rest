@@ -1,7 +1,8 @@
 'use strict'
 
 const services = require('./../services/index')
-const Token = require('./../models/token')
+const Token = require('./../controllers/token')
+//const Token = require('./../models/token')
 
 function isAuth(req, res){
     console.log(req.headers.authorization)
@@ -9,7 +10,15 @@ function isAuth(req, res){
         return res.status(404).send({mensaje: 'No tienes autorizacion'})
     }
 
+    Token.getToken(req.headers._id)
+    .then(done =>{
+        res.status(200).send({mensaje: done})
+    })
+    .catch(err => {
+        res.status(404).send({mensaje: 'No se resolvio la promesa'})
+    })
 
+/*
     console.log(req.headers._id)
     let userID = req.headers._id
 
@@ -26,10 +35,10 @@ function isAuth(req, res){
         if(success.token == req.headers.authorization){
             req.user = success.token
             next()
-        }
-
-        
+        }      
     })
+
+*/
    
     
     //const decode = services.decodeToken(token)

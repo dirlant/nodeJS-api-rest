@@ -4,16 +4,21 @@ const Token = require('./../models/token')
 
 function getToken(req, res){
 
-    console.log(req.headers._id)
-    let userID = req.headers._id
+    return new Promise((resolve, reject) =>{
+        Token.find({"userID": req}, (err, done) => {
+            if (err){
+                return reject(err)           
+            } 
+            if (!done){
+                return reject(err)
+            } 
 
-    Token.findById(userID, (err, respuesta) => {
-        if (err) return res.status(500).send({mensaje : `error  con el servidor ${err}`})
-        if (!respuesta) return res.status(404).send({mensaje : `No se ha encontrado el usuario ${respuesta}`})
-
-        res.status(200).send({token: respuesta })        
+            resolve(done)                  
+        })
     })
+
 }
+
 module.exports = {
     getToken
 }
