@@ -16,10 +16,7 @@ api.get('/users', userController.getUsers)
 
 api.post('/singin', userController.singIn)
 api.post('/singup', userController.singUp)
-api.get('/private', auth.isAuth, (req, res) => {
-    res.status(200).send({mensaje: 'Tienes acceso'})
-
-})
+api.get('/private', auth.isAuth)
 
 
 const tokenController = require('./../controllers/token')

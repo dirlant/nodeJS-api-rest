@@ -3,8 +3,8 @@
 const services = require('./../services/index')
 const Token = require('./../models/token')
 
-function isAuth(req, res, next){
-    
+function isAuth(req, res){
+    console.log(req.headers.authorization)
     if(!req.headers.authorization){
         return res.status(404).send({mensaje: 'No tienes autorizacion'})
     }
@@ -21,7 +21,7 @@ function isAuth(req, res, next){
             res.status(404).send({mensaje : `No se ha encontrado el usuario ${success}`})            
         } 
         
-        res.status(200).send({mensaje : success.token})  
+        res.status(200).send({mensaje : success})  
         
         if(success.token == req.headers.authorization){
             req.user = success.token
