@@ -11,6 +11,9 @@ api.get('/product/:productId', productController.getProduct)
 api.post('/product', productController.saveProduct)
 api.put('/product/:productId', productController.updateProduct)
 api.delete('/product/:productId',productController.deleteProduct)
+
+api.get('/users', userController.getUsers)
+
 api.post('/singin', userController.singIn)
 api.post('/singup', userController.singUp)
 api.get('/private', auth.isAuth, (req, res) => {

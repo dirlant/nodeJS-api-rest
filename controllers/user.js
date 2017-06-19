@@ -12,12 +12,12 @@ function singUp(req, res){
         password: req.body.password 
     })
 
-    user.save((err, success) =>{        
+    User.save((err, success) =>{        
         if(err) res.status(500).send({mensaje: `Error al crear el usuario ${err}`})
 
         //res.status(500).send({ token: service.createToken(user)})
 
-        user.save((err, success) =>{        
+        User.save((err, success) =>{        
             if(err) res.status(500).send({mensaje: `Error al crear el usuario ${err}`})
             
             let createToken = service.createToken(user)            
@@ -39,7 +39,7 @@ function singUp(req, res){
 }
 
 function singIn(req, res){
-    user.find({}, (err, respuesta) => {
+    User.find({}, (err, respuesta) => {
         if(err) res.status(500).send({mensaje: `Error del servidor => singIn() = ${err}`})
         if(!respuesta) res.status(500).send({mensaje: `El usuario no existe => singIn() = ${err}`})
 
@@ -51,7 +51,19 @@ function singIn(req, res){
     })
 }
 
+function getUsers(req, res){
+    User.find({}, (err, done) => {
+        if(err) res.status(500).send({mensaje: `Error del servidor => getUsers() = ${err}`})
+        if(!done) res.status(500).send({mensaje: `El usuario no existe => getUsers() = ${err}`})
+
+        res.status(200).send({
+            mensaje: done,
+        })
+    })
+}
+
 module.exports = {
     singUp,
-    singIn
+    singIn,
+    getUsers
 }
