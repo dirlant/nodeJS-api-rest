@@ -2,9 +2,9 @@
 
 const Token = require('./../models/token')
 
-function getToken(req, res){
+function getToken(req){
 
-    return new Promise((resolve, reject) =>{
+    return new Promise((resolve, reject) => {
         Token.find({"userID": req}, (err, done) => {
             if (err){
                 return reject(err)           
@@ -13,12 +13,36 @@ function getToken(req, res){
                 return reject(err)
             } 
 
-            resolve(done)                  
+            resolve(done[0].token)                  
         })
     })
 
 }
 
+function compararToken(tokenEnviado, tokenEncontrado){
+    
+    return new Promise((resolve, reject) => {            
+        if(tokenEnviado != tokenEncontrado){
+            reject('No tienes acceso')    
+        }
+
+        if(tokenEnviado == tokenEncontrado){
+            resolve('Tienes Acceso')
+        }
+    })
+
+     /*
+    return new Promise((resolve, reject) =>{
+        if (err){
+            return reject(err)           
+        } 
+        resolve('Segunda promesa')         
+    })
+    */
+
+}
+
 module.exports = {
-    getToken
+    getToken,
+    compararToken
 }

@@ -5,17 +5,21 @@ const Token = require('./../controllers/token')
 //const Token = require('./../models/token')
 
 function isAuth(req, res){
-    console.log(req.headers.authorization)
+    //sconsole.log(req.headers.authorization)
     if(!req.headers.authorization){
         return res.status(404).send({mensaje: 'No tienes autorizacion'})
     }
 
     Token.getToken(req.headers._id)
-    .then(done =>{
-        res.status(200).send({mensaje: done})
+    .then(tokenResuelto => {
+        console.log(tokenResuelto)
+        return Token.compararToken(req.headers.authorization, tokenResuelto)
+    })
+    .then(done => {
+        res.status(200).send({mensaje: done});
     })
     .catch(err => {
-        res.status(404).send({mensaje: 'No se resolvio la promesa'})
+        res.status(404).send({mensaje: 'No tienes Acceso'})
     })
 
 /*
